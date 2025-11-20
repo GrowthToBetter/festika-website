@@ -4,14 +4,14 @@
 
 class PageRouter {
   constructor() {
-    this.currentPage = "home"
+    this.currentPage = "home";
     this.pages = {
       home: this.renderHomePage.bind(this),
       explorer: this.renderExplorerPage.bind(this),
       directory: this.renderDirectoryPage.bind(this),
       "ai-chat": this.renderAIChatPage.bind(this),
       about: this.renderAboutPage.bind(this),
-    }
+    };
   }
 
   /**
@@ -19,23 +19,23 @@ class PageRouter {
    */
   navigate(pageId) {
     if (!this.pages[pageId]) {
-      console.warn("[Router] Page not found:", pageId)
-      return
+      console.warn("[Router] Page not found:", pageId);
+      return;
     }
 
-    this.currentPage = pageId
+    this.currentPage = pageId;
     if (window.navbarHandler) {
-      window.navbarHandler.setActive(pageId)
+      window.navbarHandler.setActive(pageId);
     }
-    this.pages[pageId]()
-    window.scrollTo(0, 0)
+    this.pages[pageId]();
+    window.scrollTo(0, 0);
   }
 
   /**
    * Render Home Page
    */
   renderHomePage() {
-    const container = document.getElementById("page-container")
+    const container = document.getElementById("page-container");
     container.innerHTML = `
             <section class="hero">
                 <div class="hero-content">
@@ -76,22 +76,22 @@ class PageRouter {
                     </div>
                 </div>
             </section>
-        `
+        `;
 
     document.getElementById("btn-explore").addEventListener("click", () => {
-      this.navigate("explorer")
-    })
+      this.navigate("explorer");
+    });
 
     document.getElementById("btn-learn-more").addEventListener("click", () => {
-      this.navigate("directory")
-    })
+      this.navigate("directory");
+    });
   }
 
   /**
    * Render Explorer Page
    */
   async renderExplorerPage() {
-    const container = document.getElementById("page-container")
+    const container = document.getElementById("page-container");
     container.innerHTML = `
             <section class="hero" style="min-height: auto; padding: 3rem 0;">
                 <div class="hero-content">
@@ -127,98 +127,105 @@ class PageRouter {
                     <div id="region-foods" class="grid-2"></div>
                 </div>
             </section>
-        `
+        `;
 
-    await this.initExplorerMap()
+    await this.initExplorerMap();
   }
 
   /**
    * Initialize Explorer Map
    */
   async initExplorerMap() {
-    const regionsData = await window.ApiService.getRegions()
-    const regions = regionsData.regions || []
+    const regionsData = await window.ApiService.getRegions();
+    const regions = regionsData.regions || [];
 
-    window.mapService.initMap("map")
+    window.mapService.initMap("map");
 
     if (regions.length > 0) {
-      window.mapService.addMultipleMarkers(regions)
-      window.mapService.fitBounds()
+      window.mapService.addMultipleMarkers(regions);
+      window.mapService.fitBounds();
     }
 
-    const filterSelect = document.getElementById("filter-region")
-    const searchInput = document.getElementById("search-region")
+    const filterSelect = document.getElementById("filter-region");
+    const searchInput = document.getElementById("search-region");
 
     regions.forEach((region) => {
-      const option = document.createElement("option")
-      option.value = region.id
-      option.textContent = region.name
-      filterSelect.appendChild(option)
-    })
+      const option = document.createElement("option");
+      option.value = region.id;
+      option.textContent = region.name;
+      filterSelect.appendChild(option);
+    });
 
     filterSelect.addEventListener("change", async (e) => {
       if (e.target.value) {
-        const regionId = e.target.value
-        const region = regions.find((r) => r.id == regionId)
+        const regionId = e.target.value;
+        const region = regions.find((r) => r.id == regionId);
         if (region && region.latitude && region.longitude) {
-          window.mapService.setCenter(region.latitude, region.longitude, 8)
+          window.mapService.setCenter(region.latitude, region.longitude, 8);
         }
-        await this.showRegionFoods(regionId)
+        await this.showRegionFoods(regionId);
       }
-    })
+    });
 
     searchInput.addEventListener("input", (e) => {
-      const searchTerm = e.target.value.toLowerCase().trim()
+      const searchTerm = e.target.value.toLowerCase().trim();
 
       if (!searchTerm) {
-        window.mapService.fitBounds()
-        document.getElementById("region-foods").innerHTML = ""
-        filterSelect.value = ""
-        return
+        window.mapService.fitBounds();
+        document.getElementById("region-foods").innerHTML = "";
+        filterSelect.value = "";
+        return;
       }
 
-      const filteredRegions = regions.filter((region) => region.name.toLowerCase().includes(searchTerm))
+      const filteredRegions = regions.filter((region) =>
+        region.name.toLowerCase().includes(searchTerm)
+      );
 
       if (filteredRegions.length === 0) {
         document.getElementById("region-foods").innerHTML =
-          '<p style="color: var(--text-secondary);">Daerah tidak ditemukan</p>'
-        return
+          '<p style="color: var(--text-secondary);">Daerah tidak ditemukan</p>';
+        return;
       }
 
       if (filteredRegions.length === 1) {
-        const region = filteredRegions[0]
+        const region = filteredRegions[0];
         if (region.latitude && region.longitude) {
-          window.mapService.setCenter(region.latitude, region.longitude, 8)
+          window.mapService.setCenter(region.latitude, region.longitude, 8);
         }
-        filterSelect.value = region.id
-        this.showRegionFoods(region.id)
+        filterSelect.value = region.id;
+        this.showRegionFoods(region.id);
       }
-    })
+    });
   }
 
   /**
    * Show foods of selected region
    */
   async showRegionFoods(regionId) {
-    const foodsData = await window.ApiService.getFoodsByRegion(regionId)
-    const foods = foodsData.foods || []
+    const foodsData = await window.ApiService.getFoodsByRegion(regionId);
+    const foods = foodsData.foods || [];
 
-    const container = document.getElementById("region-foods")
+    const container = document.getElementById("region-foods");
 
     if (foods.length === 0) {
-      container.innerHTML = '<p style="color: var(--text-secondary);">Belum ada data makanan untuk daerah ini</p>'
-      return
+      container.innerHTML =
+        '<p style="color: var(--text-secondary);">Belum ada data makanan untuk daerah ini</p>';
+      return;
     }
 
     container.innerHTML = foods
       .map(
         (food) => `
             <div class="food-card">
-                <div class="food-card-image">${food.emoji || "🍛"}</div>
+                <div class="food-card-image" style="background: url('${
+                  food.image
+                }'); background-size: cover ;></div>
                 <div class="food-card-body">
                     <h3 class="food-card-title">${food.name}</h3>
                     <p class="food-card-region">${food.region || ""}</p>
-                    <p class="food-card-description">${food.description || ""}</p>
+                    <p class="food-card-description">${
+                      food.description || ""
+                    }</p>
                     <div class="food-card-footer">
                         <div class="food-rating">
                             ⭐ ${food.rating || "N/A"}
@@ -226,16 +233,16 @@ class PageRouter {
                     </div>
                 </div>
             </div>
-        `,
+        `
       )
-      .join("")
+      .join("");
   }
 
   /**
    * Render Directory Page
    */
   async renderDirectoryPage() {
-    const container = document.getElementById("page-container")
+    const container = document.getElementById("page-container");
     container.innerHTML = `
             <section class="hero" style="min-height: auto; padding: 3rem 0;">
                 <div class="hero-content">
@@ -340,7 +347,7 @@ class PageRouter {
                                         <div style="height: 16px; background: #e0e0e0; border-radius: 4px; width: 60%;"></div>
                                     </div>
                                 </div>
-                            `,
+                            `
                               )
                               .join("")}
                         </div>
@@ -394,156 +401,158 @@ class PageRouter {
                     flex: 1;
                 }
             </style>
-        `
+        `;
 
-    await this.initDirectoryPage()
+    await this.initDirectoryPage();
   }
 
   /**
    * Initialize directory page with enhanced features
    */
   async initDirectoryPage() {
-    const searchInput = document.getElementById("search-food")
-    const clearBtn = document.getElementById("clear-search")
-    const filterCategory = document.getElementById("filter-category")
-    const filterRegion = document.getElementById("filter-region")
-    const sortBy = document.getElementById("sort-by")
-    const viewGrid = document.getElementById("view-grid")
-    const viewList = document.getElementById("view-list")
+    const searchInput = document.getElementById("search-food");
+    const clearBtn = document.getElementById("clear-search");
+    const filterCategory = document.getElementById("filter-category");
+    const filterRegion = document.getElementById("filter-region");
+    const sortBy = document.getElementById("sort-by");
+    const viewGrid = document.getElementById("view-grid");
+    const viewList = document.getElementById("view-list");
 
-    let currentView = "grid"
-    let allFoods = []
-    let filteredFoods = []
+    let currentView = "grid";
+    let allFoods = [];
+    let filteredFoods = [];
 
     // Load regions for filter
-    const regionsData = await window.ApiService.getRegions()
-    const regions = regionsData.regions || []
+    const regionsData = await window.ApiService.getRegions();
+    const regions = regionsData.regions || [];
     regions.forEach((region) => {
-      const option = document.createElement("option")
-      option.value = region.name
-      option.textContent = `📍 ${region.name}`
-      filterRegion.appendChild(option)
-    })
+      const option = document.createElement("option");
+      option.value = region.name;
+      option.textContent = `📍 ${region.name}`;
+      filterRegion.appendChild(option);
+    });
 
     // Initial load
-    await this.renderFoodsGrid("")
+    await this.renderFoodsGrid("");
 
     // Search with debounce
     const debouncedSearch = window.uiHandler.debounce(async (query) => {
-      document.getElementById("loading-skeleton").style.display = "block"
-      document.getElementById("foods-container").style.opacity = "0.5"
+      document.getElementById("loading-skeleton").style.display = "block";
+      document.getElementById("foods-container").style.opacity = "0.5";
 
-      await this.renderFoodsGrid(query)
+      await this.renderFoodsGrid(query);
 
-      document.getElementById("loading-skeleton").style.display = "none"
-      document.getElementById("foods-container").style.opacity = "1"
-    }, 500)
+      document.getElementById("loading-skeleton").style.display = "none";
+      document.getElementById("foods-container").style.opacity = "1";
+    }, 500);
 
     searchInput.addEventListener("input", (e) => {
-      const value = e.target.value
-      clearBtn.style.display = value ? "block" : "none"
-      debouncedSearch(value)
-    })
+      const value = e.target.value;
+      clearBtn.style.display = value ? "block" : "none";
+      debouncedSearch(value);
+    });
 
     clearBtn.addEventListener("click", () => {
-      searchInput.value = ""
-      clearBtn.style.display = "none"
-      this.renderFoodsGrid("")
-    })
+      searchInput.value = "";
+      clearBtn.style.display = "none";
+      this.renderFoodsGrid("");
+    });
 
     // Filter and sort handlers
     const applyFilters = async () => {
-      document.getElementById("loading-skeleton").style.display = "block"
-      document.getElementById("foods-container").style.opacity = "0.5"
+      document.getElementById("loading-skeleton").style.display = "block";
+      document.getElementById("foods-container").style.opacity = "0.5";
 
-      const searchQuery = searchInput.value
-      const category = filterCategory.value
-      const region = filterRegion.value
-      const sort = sortBy.value
+      const searchQuery = searchInput.value;
+      const category = filterCategory.value;
+      const region = filterRegion.value;
+      const sort = sortBy.value;
 
-      const foodsData = await window.ApiService.searchFoods(searchQuery)
-      allFoods = foodsData.results || []
+      const foodsData = await window.ApiService.searchFoods(searchQuery);
+      allFoods = foodsData.results || [];
 
       // Apply filters
       filteredFoods = allFoods.filter((food) => {
-        const matchCategory = !category || food.category === category
-        const matchRegion = !region || food.region === region
-        return matchCategory && matchRegion
-      })
+        const matchCategory = !category || food.category === category;
+        const matchRegion = !region || food.region === region;
+        return matchCategory && matchRegion;
+      });
 
       // Apply sorting
       if (sort === "name-asc") {
-        filteredFoods.sort((a, b) => a.name.localeCompare(b.name))
+        filteredFoods.sort((a, b) => a.name.localeCompare(b.name));
       } else if (sort === "name-desc") {
-        filteredFoods.sort((a, b) => b.name.localeCompare(a.name))
+        filteredFoods.sort((a, b) => b.name.localeCompare(a.name));
       } else if (sort === "rating-desc") {
-        filteredFoods.sort((a, b) => (b.rating || 0) - (a.rating || 0))
+        filteredFoods.sort((a, b) => (b.rating || 0) - (a.rating || 0));
       } else if (sort === "rating-asc") {
-        filteredFoods.sort((a, b) => (a.rating || 0) - (b.rating || 0))
+        filteredFoods.sort((a, b) => (a.rating || 0) - (b.rating || 0));
       }
 
-      this.renderFoodsFromArray(filteredFoods, currentView)
+      this.renderFoodsFromArray(filteredFoods, currentView);
 
-      document.getElementById("loading-skeleton").style.display = "none"
-      document.getElementById("foods-container").style.opacity = "1"
-    }
+      document.getElementById("loading-skeleton").style.display = "none";
+      document.getElementById("foods-container").style.opacity = "1";
+    };
 
-    filterCategory.addEventListener("change", applyFilters)
-    filterRegion.addEventListener("change", applyFilters)
-    sortBy.addEventListener("change", applyFilters)
+    filterCategory.addEventListener("change", applyFilters);
+    filterRegion.addEventListener("change", applyFilters);
+    sortBy.addEventListener("change", applyFilters);
 
     // View toggle
     viewGrid.addEventListener("click", () => {
-      currentView = "grid"
-      viewGrid.classList.add("active-view")
-      viewList.classList.remove("active-view")
-      viewGrid.style.background = "var(--accent)"
-      viewGrid.style.color = "#333333"
-      viewList.style.background = "#e9ecef"
-      viewList.style.color = "#6c757d"
+      currentView = "grid";
+      viewGrid.classList.add("active-view");
+      viewList.classList.remove("active-view");
+      viewGrid.style.background = "var(--accent)";
+      viewGrid.style.color = "#333333";
+      viewList.style.background = "#e9ecef";
+      viewList.style.color = "#6c757d";
 
-      const container = document.getElementById("foods-container")
-      container.className = "grid-2"
+      const container = document.getElementById("foods-container");
+      container.className = "grid-2";
       container.querySelectorAll(".food-card").forEach((card) => {
-        card.classList.remove("list-view")
-      })
-    })
+        card.classList.remove("list-view");
+      });
+    });
 
     viewList.addEventListener("click", () => {
-      currentView = "list"
-      viewList.classList.add("active-view")
-      viewGrid.classList.remove("active-view")
-      viewList.style.background = "var(--accent)"
-      viewList.style.color = "#333333"
-      viewGrid.style.background = "#e9ecef"
-      viewGrid.style.color = "#6c757d"
+      currentView = "list";
+      viewList.classList.add("active-view");
+      viewGrid.classList.remove("active-view");
+      viewList.style.background = "var(--accent)";
+      viewList.style.color = "#333333";
+      viewGrid.style.background = "#e9ecef";
+      viewGrid.style.color = "#6c757d";
 
-      const container = document.getElementById("foods-container")
-      container.style.display = "flex"
-      container.style.flexDirection = "column"
-      container.style.gap = "1rem"
+      const container = document.getElementById("foods-container");
+      container.style.display = "flex";
+      container.style.flexDirection = "column";
+      container.style.gap = "1rem";
       container.querySelectorAll(".food-card").forEach((card) => {
-        card.classList.add("list-view")
-      })
-    })
+        card.classList.add("list-view");
+      });
+    });
   }
 
   /**
    * Render foods grid
    */
   async renderFoodsGrid(query) {
-    const container = document.getElementById("foods-container")
-    const resultsCount = document.getElementById("results-count")
+    const container = document.getElementById("foods-container");
+    const resultsCount = document.getElementById("results-count");
 
     try {
-      const foodsData = await window.ApiService.searchFoods(query)
-      const foods = foodsData.results || []
+      const foodsData = await window.ApiService.searchFoods(query);
+      const foods = foodsData.results || [];
 
       if (resultsCount) {
         if (foodsData.success === false) {
-          resultsCount.innerHTML = `<span style="color: #dc3545;"><i class="fas fa-exclamation-triangle"></i> ${foodsData.error || "Gagal memuat data"}</span>`
+          resultsCount.innerHTML = `<span style="color: #dc3545;"><i class="fas fa-exclamation-triangle"></i> ${
+            foodsData.error || "Gagal memuat data"
+          }</span>`;
         } else {
-          resultsCount.textContent = `Menampilkan ${foods.length} makanan`
+          resultsCount.textContent = `Menampilkan ${foods.length} makanan`;
         }
       }
 
@@ -551,17 +560,29 @@ class PageRouter {
         container.innerHTML = `
                     <div style="grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: var(--text-secondary);">
                         <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
-                        <p style="font-size: 1.125rem; margin: 0;">${foodsData.success === false ? "Tidak dapat terhubung ke server" : "Makanan tidak ditemukan"}</p>
-                        <p style="font-size: 0.875rem; margin-top: 0.5rem;">${foodsData.success === false ? "Server mungkin sedang cold start. Silakan tunggu sebentar dan refresh halaman." : "Coba kata kunci lain atau ubah filter"}</p>
-                        ${foodsData.success === false ? '<button class="btn-primary-custom" onclick="location.reload()" style="margin-top: 1rem;"><i class="fas fa-redo"></i> Refresh</button>' : ""}
+                        <p style="font-size: 1.125rem; margin: 0;">${
+                          foodsData.success === false
+                            ? "Tidak dapat terhubung ke server"
+                            : "Makanan tidak ditemukan"
+                        }</p>
+                        <p style="font-size: 0.875rem; margin-top: 0.5rem;">${
+                          foodsData.success === false
+                            ? "Server mungkin sedang cold start. Silakan tunggu sebentar dan refresh halaman."
+                            : "Coba kata kunci lain atau ubah filter"
+                        }</p>
+                        ${
+                          foodsData.success === false
+                            ? '<button class="btn-primary-custom" onclick="location.reload()" style="margin-top: 1rem;"><i class="fas fa-redo"></i> Refresh</button>'
+                            : ""
+                        }
                     </div>
-                `
-        return
+                `;
+        return;
       }
 
-      this.renderFoodsFromArray(foods, "grid")
+      this.renderFoodsFromArray(foods, "grid");
     } catch (error) {
-      console.error("[v0] Error rendering foods grid:", error)
+      console.error("[v0] Error rendering foods grid:", error);
 
       container.innerHTML = `
                 <div style="grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: var(--text-secondary);">
@@ -570,10 +591,10 @@ class PageRouter {
                     <p style="font-size: 0.875rem; margin-top: 0.5rem;">Server mungkin sedang cold start. Silakan tunggu sebentar dan coba lagi.</p>
                     <button class="btn-primary-custom" onclick="location.reload()" style="margin-top: 1rem;"><i class="fas fa-redo"></i> Refresh Halaman</button>
                 </div>
-            `
+            `;
 
       if (resultsCount) {
-        resultsCount.innerHTML = `<span style="color: #dc3545;"><i class="fas fa-exclamation-triangle"></i> Error loading data</span>`
+        resultsCount.innerHTML = `<span style="color: #dc3545;"><i class="fas fa-exclamation-triangle"></i> Error loading data</span>`;
       }
     }
   }
@@ -582,24 +603,31 @@ class PageRouter {
    * Render foods from array with view mode
    */
   renderFoodsFromArray(foods, viewMode = "grid") {
-    const container = document.getElementById("foods-container")
-    const resultsCount = document.getElementById("results-count")
+    const container = document.getElementById("foods-container");
+    const resultsCount = document.getElementById("results-count");
 
     if (resultsCount) {
-      resultsCount.textContent = `Menampilkan ${foods.length} makanan`
+      resultsCount.textContent = `Menampilkan ${foods.length} makanan`;
     }
 
     container.innerHTML = foods
       .map(
         (food, index) => `
-            <div class="food-card ${viewMode === "list" ? "list-view" : ""}" style="animation: fadeIn 0.5s ease-in-out ${index * 0.1}s both;">
-                <div class="food-card-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; font-size: 4rem;">
-                    ${food.emoji || "🍛"}
+            <div class="food-card ${
+              viewMode === "list" ? "list-view" : ""
+            }" style="animation: fadeIn 0.5s ease-in-out ${index * 0.1}s both;">
+                <div class="food-card-image" style="background: url('${
+                  food.image
+                }'); background-size: cover ; display: flex; align-items: center; justify-content: center; font-size: 4rem;">
                 </div>
                 <div class="food-card-body">
-                    <h3 class="food-card-title" style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem;">${food.name}</h3>
+                    <h3 class="food-card-title" style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem;">${
+                      food.name
+                    }</h3>
                     <p class="food-card-region" style="color: var(--accent); font-size: 0.875rem; margin-bottom: 0.75rem;">
-                        <i class="fas fa-map-marker-alt"></i> ${food.region || "Indonesia"}
+                        <i class="fas fa-map-marker-alt"></i> ${
+                          food.region || "Indonesia"
+                        }
                     </p>
                     <p class="food-card-description" style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.5; margin-bottom: 1rem;">
                         ${food.description || "Makanan khas Indonesia"}
@@ -610,7 +638,11 @@ class PageRouter {
                         <div style="margin-bottom: 0.75rem;">
                             <span style="font-size: 0.75rem; color: #6c757d; text-transform: uppercase; font-weight: 600;">Bahan Utama:</span>
                             <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0.25rem 0;">
-                                ${Array.isArray(food.ingredients) ? food.ingredients.slice(0, 3).join(", ") : food.ingredients}
+                                ${
+                                  Array.isArray(food.ingredients)
+                                    ? food.ingredients.slice(0, 3).join(", ")
+                                    : food.ingredients
+                                }
                             </p>
                         </div>
                     `
@@ -619,7 +651,9 @@ class PageRouter {
                     <div class="food-card-footer" style="display: flex; justify-content: space-between; align-items: center;">
                         <div class="food-rating" style="display: flex; align-items: center; gap: 0.5rem;">
                             <span style="color: #ffc107; font-size: 1.125rem;">⭐</span>
-                            <span style="font-weight: 600; color: var(--text-primary);">${food.rating || "N/A"}</span>
+                            <span style="font-weight: 600; color: var(--text-primary);">${
+                              food.rating || "N/A"
+                            }</span>
                             ${
                               food.difficulty_level
                                 ? `
@@ -636,16 +670,16 @@ class PageRouter {
                     </div>
                 </div>
             </div>
-        `,
+        `
       )
-      .join("")
+      .join("");
   }
 
   /**
    * Render About Page
    */
   renderAboutPage() {
-    const container = document.getElementById("page-container")
+    const container = document.getElementById("page-container");
     container.innerHTML = `
             <section class="hero" style="min-height: auto; padding: 3rem 0;">
                 <div class="hero-content">
@@ -680,11 +714,11 @@ class PageRouter {
                     </div>
                 </div>
             </section>
-        `
+        `;
   }
 
   renderAIChatPage() {
-    const container = document.getElementById("page-container")
+    const container = document.getElementById("page-container");
     container.innerHTML = `
             <section class="hero" style="min-height: auto; padding: 3rem 0;">
                 <div class="hero-content">
@@ -743,80 +777,83 @@ class PageRouter {
                     </div>
                 </div>
             </section>
-        `
+        `;
   }
 
   async sendChatMessage() {
-    const input = document.getElementById("chat-input")
-    const chatMessages = document.getElementById("chat-messages")
+    const input = document.getElementById("chat-input");
+    const chatMessages = document.getElementById("chat-messages");
 
     if (!input || !chatMessages) {
-      console.error("[PageRouter] Chat elements not found")
-      return
+      console.error("[PageRouter] Chat elements not found");
+      return;
     }
 
-    const message = input.value.trim()
+    const message = input.value.trim();
 
-    if (!message) return
+    if (!message) return;
 
     // Clear input
-    input.value = ""
+    input.value = "";
 
     // Add user message to chat
-    this.addChatMessage("user", message)
+    this.addChatMessage("user", message);
 
     // Show loading
-    this.addChatMessage("bot", "Sedang berpikir...", true)
+    this.addChatMessage("bot", "Sedang berpikir...", true);
 
     try {
       // Get AI response
-      const response = await window.aiService.chatAboutFood(message)
+      const response = await window.aiService.chatAboutFood(message);
 
       // Remove loading message
-      const loadingMsg = chatMessages.querySelector(".loading-message")
-      if (loadingMsg) loadingMsg.remove()
+      const loadingMsg = chatMessages.querySelector(".loading-message");
+      if (loadingMsg) loadingMsg.remove();
 
       // Add bot response
-      this.addChatMessage("bot", response.response || "Maaf, saya tidak dapat menjawab saat ini.")
+      this.addChatMessage(
+        "bot",
+        response.response || "Maaf, saya tidak dapat menjawab saat ini."
+      );
     } catch (error) {
-      console.error("[PageRouter] Error sending message:", error)
+      console.error("[PageRouter] Error sending message:", error);
 
       // Remove loading message
-      const loadingMsg = chatMessages.querySelector(".loading-message")
-      if (loadingMsg) loadingMsg.remove()
+      const loadingMsg = chatMessages.querySelector(".loading-message");
+      if (loadingMsg) loadingMsg.remove();
 
       // Add error message
-      this.addChatMessage("bot", "Maaf, terjadi kesalahan. Silakan coba lagi.")
+      this.addChatMessage("bot", "Maaf, terjadi kesalahan. Silakan coba lagi.");
     }
   }
 
   sendQuickMessage(message) {
-    const input = document.getElementById("chat-input")
+    const input = document.getElementById("chat-input");
 
     if (!input) {
-      console.error("[PageRouter] Chat input not found")
-      return
+      console.error("[PageRouter] Chat input not found");
+      return;
     }
 
-    input.value = message
-    this.sendChatMessage()
+    input.value = message;
+    this.sendChatMessage();
   }
 
   addChatMessage(sender, message, isLoading = false) {
-    const chatMessages = document.getElementById("chat-messages")
+    const chatMessages = document.getElementById("chat-messages");
 
     if (!chatMessages) {
-      console.error("[PageRouter] Chat messages container not found")
-      return
+      console.error("[PageRouter] Chat messages container not found");
+      return;
     }
 
     // Remove welcome message if exists
-    const welcomeMsg = chatMessages.querySelector(".text-center")
-    if (welcomeMsg) welcomeMsg.remove()
+    const welcomeMsg = chatMessages.querySelector(".text-center");
+    if (welcomeMsg) welcomeMsg.remove();
 
-    const messageDiv = document.createElement("div")
-    messageDiv.className = `mb-3 ${isLoading ? "loading-message" : ""}`
-    messageDiv.style.marginBottom = "1rem"
+    const messageDiv = document.createElement("div");
+    messageDiv.className = `mb-3 ${isLoading ? "loading-message" : ""}`;
+    messageDiv.style.marginBottom = "1rem";
 
     if (sender === "user") {
       messageDiv.innerHTML = `
@@ -825,23 +862,27 @@ class PageRouter {
                         ${message}
                     </div>
                 </div>
-            `
+            `;
     } else {
       messageDiv.innerHTML = `
                 <div style="display: flex; justify-content: flex-start;">
                     <div style="background-color: #e9ecef; color: #333333; border-radius: 1rem; padding: 0.75rem 1rem; max-width: 70%;">
-                        ${isLoading ? '<i class="fas fa-spinner fa-spin" style="margin-right: 0.5rem;"></i>' : '<i class="fas fa-robot" style="margin-right: 0.5rem;"></i>'}
+                        ${
+                          isLoading
+                            ? '<i class="fas fa-spinner fa-spin" style="margin-right: 0.5rem;"></i>'
+                            : '<i class="fas fa-robot" style="margin-right: 0.5rem;"></i>'
+                        }
                         ${message}
                     </div>
                 </div>
-            `
+            `;
     }
 
-    chatMessages.appendChild(messageDiv)
-    chatMessages.scrollTop = chatMessages.scrollHeight
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 }
 
 // Export singleton instance
-const appRouter = new PageRouter()
-window.appRouter = appRouter // Global reference
+const appRouter = new PageRouter();
+window.appRouter = appRouter; // Global reference
