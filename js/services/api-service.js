@@ -1,8 +1,5 @@
 // API Service - Handles all API calls to Python Flask backend
-const API_BASE_URL =
-  window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
-    ? "http://localhost:5000/api"
-    : "https://festika-ai.vercel.app/api" // Use full URL for Vercel
+const API_BASE_URL = "https://festika-ai.vercel.app/api";// Use full URL for Vercel
 
 const CACHE_DURATION = 5 * 60 * 1000 // 5 minutes
 const REQUEST_TIMEOUT = 60000 // 60 seconds for Vercel cold starts
