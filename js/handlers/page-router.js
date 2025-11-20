@@ -267,17 +267,6 @@ class PageRouter {
 
                         <!-- Filter Controls -->
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
-                            <select 
-                                id="filter-category" 
-                                class="form-select" 
-                                style="background-color: #f8f9fa; color: var(--text-primary); border: 1px solid #dee2e6; padding: 0.625rem 1rem; border-radius: 0.5rem; transition: all 0.3s;"
-                            >
-                                <option value="">🏷️ Semua Kategori</option>
-                                <option value="traditional">🍜 Makanan Tradisional</option>
-                                <option value="snack">🍪 Camilan</option>
-                                <option value="dessert">🍰 Makanan Penutup</option>
-                                <option value="beverage">🥤 Minuman</option>
-                            </select>
 
                             <select 
                                 id="filter-region" 
@@ -402,7 +391,6 @@ class PageRouter {
   async initDirectoryPage() {
     const searchInput = document.getElementById("search-food")
     const clearBtn = document.getElementById("clear-search")
-    const filterCategory = document.getElementById("filter-category")
     const filterRegion = document.getElementById("filter-region")
     const sortBy = document.getElementById("sort-by")
     const viewGrid = document.getElementById("view-grid")
@@ -454,7 +442,6 @@ class PageRouter {
       document.getElementById("foods-container").style.opacity = "0.5"
 
       const searchQuery = searchInput.value
-      const category = filterCategory.value
       const region = filterRegion.value
       const sort = sortBy.value
 
@@ -485,7 +472,6 @@ class PageRouter {
       document.getElementById("foods-container").style.opacity = "1"
     }
 
-    filterCategory.addEventListener("change", applyFilters)
     filterRegion.addEventListener("change", applyFilters)
     sortBy.addEventListener("change", applyFilters)
 
