@@ -40,7 +40,7 @@
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: var(--text-primary);
+  color: black;
 }
 
 .food-card-region {
@@ -51,7 +51,7 @@
 }
 
 .food-card-description {
-  color: var(--text-secondary);
+  color: black;
   font-size: 0.875rem;
   margin-bottom: 1rem;
   flex: 1;
@@ -102,12 +102,12 @@
 .region-card h3 {
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: var(--text-primary);
+  color: black;
   font-size: 1rem;
 }
 
 .region-card p {
-  color: var(--text-secondary);
+  color: black;
   font-size: 0.875rem;
 }
 
@@ -133,13 +133,13 @@
 
 .stat-card-title {
   font-size: 0.875rem;
-  color: var(--text-secondary);
+  color: black;
   font-weight: 500;
 }
 
 .stat-card-icon {
   font-size: 1.5rem;
-  color: var(--text-tertiary);
+  color: black;
 }
 
 .stat-card-value {
@@ -178,7 +178,7 @@
   flex: 1;
   background-color: var(--card-bg);
   border: 1px solid var(--border);
-  color: var(--text-primary);
+  color: black;
   padding: 0.625rem 1rem;
   border-radius: 0.375rem;
   font-size: 0.95rem;

@@ -218,7 +218,7 @@ class PageRouter {
         (food) => `
             <div class="food-card">
                 <div class="food-card-image" style="background: url('${
-                  food.image
+                  food.image_url
                 }'); background-size: cover ;></div>
                 <div class="food-card-body">
                     <h3 class="food-card-title">${food.name}</h3>
@@ -277,17 +277,6 @@ class PageRouter {
 
                         <!-- Filter Controls -->
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
-                            <select 
-                                id="filter-category" 
-                                class="form-select" 
-                                style="background-color: #f8f9fa; color: #333333; border: 1px solid #dee2e6; padding: 0.625rem 1rem; border-radius: 0.5rem; transition: all 0.3s;"
-                            >
-                                <option value="">🏷️ Semua Kategori</option>
-                                <option value="traditional">🍜 Makanan Tradisional</option>
-                                <option value="snack">🍪 Camilan</option>
-                                <option value="dessert">🍰 Makanan Penutup</option>
-                                <option value="beverage">🥤 Minuman</option>
-                            </select>
 
                             <select 
                                 id="filter-region" 
@@ -617,19 +606,19 @@ class PageRouter {
               viewMode === "list" ? "list-view" : ""
             }" style="animation: fadeIn 0.5s ease-in-out ${index * 0.1}s both;">
                 <div class="food-card-image" style="background: url('${
-                  food.image
+                  food.image_url
                 }'); background-size: cover ; display: flex; align-items: center; justify-content: center; font-size: 4rem;">
                 </div>
                 <div class="food-card-body">
                     <h3 class="food-card-title" style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem;">${
                       food.name
                     }</h3>
-                    <p class="food-card-region" style="color: var(--accent); font-size: 0.875rem; margin-bottom: 0.75rem;">
+                    <p class="food-card-region" style="color: black; font-size: 0.875rem; margin-bottom: 0.75rem;">
                         <i class="fas fa-map-marker-alt"></i> ${
                           food.region || "Indonesia"
                         }
                     </p>
-                    <p class="food-card-description" style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.5; margin-bottom: 1rem;">
+                    <p class="food-card-description" style="color: black; font-size: 0.875rem; line-height: 1.5; margin-bottom: 1rem;">
                         ${food.description || "Makanan khas Indonesia"}
                     </p>
                     ${
@@ -637,7 +626,7 @@ class PageRouter {
                         ? `
                         <div style="margin-bottom: 0.75rem;">
                             <span style="font-size: 0.75rem; color: #6c757d; text-transform: uppercase; font-weight: 600;">Bahan Utama:</span>
-                            <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0.25rem 0;">
+                            <p style="font-size: 0.875rem; color: black; margin: 0.25rem 0;">
                                 ${
                                   Array.isArray(food.ingredients)
                                     ? food.ingredients.slice(0, 3).join(", ")
