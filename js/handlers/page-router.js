@@ -401,7 +401,6 @@ class PageRouter {
   async initDirectoryPage() {
     const searchInput = document.getElementById("search-food");
     const clearBtn = document.getElementById("clear-search");
-    const filterCategory = document.getElementById("filter-category");
     const filterRegion = document.getElementById("filter-region");
     const sortBy = document.getElementById("sort-by");
     const viewGrid = document.getElementById("view-grid");
@@ -453,7 +452,6 @@ class PageRouter {
       document.getElementById("foods-container").style.opacity = "0.5";
 
       const searchQuery = searchInput.value;
-      const category = filterCategory.value;
       const region = filterRegion.value;
       const sort = sortBy.value;
 
@@ -484,7 +482,6 @@ class PageRouter {
       document.getElementById("foods-container").style.opacity = "1";
     };
 
-    filterCategory.addEventListener("change", applyFilters);
     filterRegion.addEventListener("change", applyFilters);
     sortBy.addEventListener("change", applyFilters);
 
