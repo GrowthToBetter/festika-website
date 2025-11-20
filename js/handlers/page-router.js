@@ -222,9 +222,6 @@ class PageRouter {
                         <div class="food-rating">
                             ⭐ ${food.rating || "N/A"}
                         </div>
-                        <button class="btn-primary-custom" style="padding: 0.5rem 1rem; font-size: 0.875rem;">
-                            Detail
-                        </button>
                     </div>
                 </div>
             </div>
