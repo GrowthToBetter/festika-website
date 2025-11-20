@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cita Rasa - Pemetaan Makanan Nusantara</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <!-- Added custom CSS files -->
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/hero.css">
+    <link rel="stylesheet" href="../css/cards.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body class="bg-dark text-light">
+    <!-- Updated structure to match new design -->
+    <!-- NAVBAR -->
+    <nav id="navbar-container"></nav>
+
+    <!-- PAGE CONTAINER -->
+    <div id="page-container"></div>
+
+    <!-- FOOTER -->
+    <footer id="footer-container"></footer>
+
+    <!-- LOADING SPINNER -->
+    <div id="loading-spinner" class="loading-overlay d-none">
+        <div class="spinner-border text-warning" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Micro-services -->
+    <script src="../js/services/api-service.js"></script>
+    <script src="../js/services/map-service.js"></script>
+    <script src="../js/services/food-service.js"></script>
+    <script src="../js/services/ai-service.js"></script>
+    <script src="../js/services/storage-service.js"></script>
+    
+    <!-- UI Handlers -->
+    <script src="../js/handlers/navbar-handler.js"></script>
+    <script src="../js/handlers/page-router.js"></script>
+    <script src="../js/handlers/ui-handler.js"></script>
+    <script src="../js/handlers/event-handler.js"></script>
+    
+    <!-- Main App -->
+    <script src="../js/app.js"></script>
+</body>
+</html>
