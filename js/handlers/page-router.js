@@ -39,15 +39,15 @@ class PageRouter {
     container.innerHTML = `
             <section class="hero">
                 <div class="hero-content">
-                    <h1>Jelajahi <span class="accent">Cita Rasa</span> Nusantara</h1>
-                    <p>Temukan makanan khas setiap daerah di Indonesia dengan pemetaan interaktif dan rekomendasi AI</p>
+                    <h1>Jelajahi <span class="accent">Kelezatan</span> Kuliner Nusantara</h1>
+                    <p>Temukan cita rasa autentik makanan khas Jawa Timur dengan pemetaan interaktif dan rekomendasi AI yang personal</p>
                     
                     <div class="hero-buttons">
                         <button class="btn-primary-custom" id="btn-explore">
-                            <i class="fas fa-map"></i> Mulai Jelajahi
+                            <i class="fas fa-compass"></i> Mulai Petualangan
                         </button>
                         <button class="btn-secondary-custom" id="btn-learn-more">
-                            <i class="fas fa-book"></i> Pelajari Lebih
+                            <i class="fas fa-book-open"></i> Lihat Direktori
                         </button>
                     </div>
 
@@ -56,22 +56,22 @@ class PageRouter {
                             <div class="feature-icon">
                                 <i class="fas fa-map-marked-alt"></i>
                             </div>
-                            <h3>Peta Interaktif</h3>
-                            <p>Jelajahi lokasi makanan khas di seluruh Indonesia</p>
+                            <h3>Peta Kuliner Interaktif</h3>
+                            <p>Jelajahi lokasi 100+ makanan khas dari 31 kota/kabupaten di Jawa Timur dengan peta yang mudah digunakan</p>
                         </div>
                         <div class="feature-card">
                             <div class="feature-icon">
-                                <i class="fas fa-brain"></i>
+                                <i class="fas fa-robot"></i>
                             </div>
-                            <h3>Rekomendasi AI</h3>
-                            <p>Dapatkan saran makanan berdasarkan preferensi Anda</p>
+                            <h3>AI Chat Assistant</h3>
+                            <p>Tanya apa saja tentang kuliner Nusantara dan dapatkan jawaban lengkap dari asisten AI kami</p>
                         </div>
                         <div class="feature-card">
                             <div class="feature-icon">
-                                <i class="fas fa-star"></i>
+                                <i class="fas fa-search"></i>
                             </div>
-                            <h3>Rating & Review</h3>
-                            <p>Lihat rating dan ulasan dari pengunjung lainnya</p>
+                            <h3>Pencarian Cerdas</h3>
+                            <p>Temukan makanan favorit dengan filter berdasarkan daerah, kategori, dan rating dalam sekejap</p>
                         </div>
                     </div>
                 </div>
@@ -93,36 +93,37 @@ class PageRouter {
   async renderExplorerPage() {
     const container = document.getElementById("page-container")
     container.innerHTML = `
-            <section class="section" style="padding: 2rem 0;">
+            <section class="hero" style="min-height: auto; padding: 3rem 0;">
+                <div class="hero-content">
+                    <h1 style="font-size: 2.5rem;">Peta Makanan Daerah <span class="accent">Jawa Timur</span></h1>
+                    <p>Jelajahi lokasi 100+ makanan khas dari 31 kota/kabupaten di Jawa Timur</p>
+                </div>
+            </section>
+
+            <section class="section" style="background-color: #f8f9fa; padding: 3rem 0; min-height: calc(100vh - 300px);">
                 <div class="container-fluid">
-                    <h2 class="section-title">Peta Makanan Daerah Indonesia</h2>
-                    
                     <div style="margin-bottom: 2rem;">
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                             <input 
                                 type="text" 
                                 id="search-region" 
                                 class="form-control" 
-                                placeholder="Cari daerah..." 
-                                style="background-color: white; color: var(--text-primary); border-color: var(--border); padding: 0.625rem 1rem; border-radius: 0.375rem; border: 1px solid;"
+                                placeholder="🔍 Cari daerah..." 
+                                style="background-color: white; color: #333333; border: 1px solid var(--border); padding: 0.75rem 1rem; border-radius: 0.5rem;"
                             >
                             <select 
                                 id="filter-region" 
                                 class="form-select" 
-                                style="background-color: white; color: var(--text-primary); border-color: var(--border); padding: 0.625rem 1rem; border-radius: 0.375rem; border: 1px solid;"
+                                style="background-color: white; color: #333333; border: 1px solid var(--border); padding: 0.75rem 1rem; border-radius: 0.5rem;"
                             >
-                                <option value="">Semua Daerah</option>
+                                <option value="">📍 Semua Daerah</option>
                             </select>
                         </div>
                     </div>
 
-                    <div id="map" style="width: 100%; height: 600px; border-radius: 0.5rem; border: 1px solid var(--border); box-shadow: var(--shadow-md);"></div>
-                </div>
-            </section>
-
-            <section class="section" style="background-color: var(--card-bg);">
-                <div class="container-fluid">
-                    <h3 style="margin-bottom: 2rem; color: var(--text-primary);">Makanan di Daerah yang Dipilih</h3>
+                    <div id="map" style="width: 100%; height: 600px; border-radius: 0.5rem; border: 1px solid var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.1); background: white;"></div>
+                    
+                    <h3 style="margin-top: 3rem; margin-bottom: 1.5rem; color: #333333; font-weight: 600;">Makanan di Daerah yang Dipilih</h3>
                     <div id="region-foods" class="grid-2"></div>
                 </div>
             </section>
@@ -213,7 +214,7 @@ class PageRouter {
       .map(
         (food) => `
             <div class="food-card">
-                <div class="food-card-image" style="background:url('${food.image_url}'); background-size: cover;"></div>
+                <div class="food-card-image">${food.emoji || "🍛"}</div>
                 <div class="food-card-body">
                     <h3 class="food-card-title">${food.name}</h3>
                     <p class="food-card-region">${food.region || ""}</p>
@@ -238,11 +239,16 @@ class PageRouter {
    */
   async renderDirectoryPage() {
     const container = document.getElementById("page-container")
-
     container.innerHTML = `
-            <section class="section">
+            <section class="hero" style="min-height: auto; padding: 3rem 0;">
+                <div class="hero-content">
+                    <h1 style="font-size: 2.5rem;">Direktori Makanan <span class="accent">Nusantara</span></h1>
+                    <p>Temukan 100+ makanan khas Jawa Timur dengan pencarian dan filter cerdas</p>
+                </div>
+            </section>
+
+            <section class="section" style="background-color: #f8f9fa; padding: 3rem 0; min-height: calc(100vh - 300px);">
                 <div class="container-fluid">
-                    <h2 class="section-title">Direktori Makanan Nusantara</h2>
                     
                     <!-- Enhanced search and filter section -->
                     <div style="margin-bottom: 2rem; background: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
@@ -254,7 +260,7 @@ class PageRouter {
                                 id="search-food" 
                                 class="form-control" 
                                 placeholder="Cari makanan favorit Anda..." 
-                                style="background-color: #f8f9fa; color: var(--text-primary); border: 2px solid transparent; padding: 0.75rem 1rem 0.75rem 3rem; border-radius: 2rem; transition: all 0.3s; font-size: 1rem;"
+                                style="background-color: #f8f9fa; color: #333333; border: 2px solid transparent; padding: 0.75rem 1rem 0.75rem 3rem; border-radius: 2rem; transition: all 0.3s; font-size: 1rem;"
                             >
                             <button 
                                 id="clear-search" 
@@ -267,11 +273,22 @@ class PageRouter {
 
                         <!-- Filter Controls -->
                         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                            <select 
+                                id="filter-category" 
+                                class="form-select" 
+                                style="background-color: #f8f9fa; color: #333333; border: 1px solid #dee2e6; padding: 0.625rem 1rem; border-radius: 0.5rem; transition: all 0.3s;"
+                            >
+                                <option value="">🏷️ Semua Kategori</option>
+                                <option value="traditional">🍜 Makanan Tradisional</option>
+                                <option value="snack">🍪 Camilan</option>
+                                <option value="dessert">🍰 Makanan Penutup</option>
+                                <option value="beverage">🥤 Minuman</option>
+                            </select>
 
                             <select 
                                 id="filter-region" 
                                 class="form-select" 
-                                style="background-color: #f8f9fa; color: var(--text-primary); border: 1px solid #dee2e6; padding: 0.625rem 1rem; border-radius: 0.5rem; transition: all 0.3s;"
+                                style="background-color: #f8f9fa; color: #333333; border: 1px solid #dee2e6; padding: 0.625rem 1rem; border-radius: 0.5rem; transition: all 0.3s;"
                             >
                                 <option value="">📍 Semua Daerah</option>
                             </select>
@@ -279,7 +296,7 @@ class PageRouter {
                             <select 
                                 id="sort-by" 
                                 class="form-select" 
-                                style="background-color: #f8f9fa; color: var(--text-primary); border: 1px solid #dee2e6; padding: 0.625rem 1rem; border-radius: 0.5rem; transition: all 0.3s;"
+                                style="background-color: #f8f9fa; color: #333333; border: 1px solid #dee2e6; padding: 0.625rem 1rem; border-radius: 0.5rem; transition: all 0.3s;"
                             >
                                 <option value="name-asc">📋 Nama (A-Z)</option>
                                 <option value="name-desc">📋 Nama (Z-A)</option>
@@ -297,7 +314,7 @@ class PageRouter {
                                 <button 
                                     id="view-grid" 
                                     class="btn btn-sm active-view" 
-                                    style="background: var(--accent); color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.375rem; transition: all 0.3s;"
+                                    style="background: var(--accent); color: #333333; border: none; padding: 0.5rem 1rem; border-radius: 0.375rem; transition: all 0.3s;"
                                 >
                                     <i class="fas fa-th"></i> Grid
                                 </button>
@@ -345,7 +362,7 @@ class PageRouter {
                 #search-food:focus {
                     border-color: var(--accent) !important;
                     background-color: white !important;
-                    box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.1) !important;
+                    box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2) !important;
                     outline: none !important;
                 }
 
@@ -361,7 +378,7 @@ class PageRouter {
 
                 .active-view {
                     background: var(--accent) !important;
-                    color: white !important;
+                    color: #333333 !important;
                 }
 
                 .list-view {
@@ -391,6 +408,7 @@ class PageRouter {
   async initDirectoryPage() {
     const searchInput = document.getElementById("search-food")
     const clearBtn = document.getElementById("clear-search")
+    const filterCategory = document.getElementById("filter-category")
     const filterRegion = document.getElementById("filter-region")
     const sortBy = document.getElementById("sort-by")
     const viewGrid = document.getElementById("view-grid")
@@ -442,6 +460,7 @@ class PageRouter {
       document.getElementById("foods-container").style.opacity = "0.5"
 
       const searchQuery = searchInput.value
+      const category = filterCategory.value
       const region = filterRegion.value
       const sort = sortBy.value
 
@@ -472,6 +491,7 @@ class PageRouter {
       document.getElementById("foods-container").style.opacity = "1"
     }
 
+    filterCategory.addEventListener("change", applyFilters)
     filterRegion.addEventListener("change", applyFilters)
     sortBy.addEventListener("change", applyFilters)
 
@@ -481,7 +501,7 @@ class PageRouter {
       viewGrid.classList.add("active-view")
       viewList.classList.remove("active-view")
       viewGrid.style.background = "var(--accent)"
-      viewGrid.style.color = "white"
+      viewGrid.style.color = "#333333"
       viewList.style.background = "#e9ecef"
       viewList.style.color = "#6c757d"
 
@@ -497,7 +517,7 @@ class PageRouter {
       viewList.classList.add("active-view")
       viewGrid.classList.remove("active-view")
       viewList.style.background = "var(--accent)"
-      viewList.style.color = "white"
+      viewList.style.color = "#333333"
       viewGrid.style.background = "#e9ecef"
       viewGrid.style.color = "#6c757d"
 
@@ -576,7 +596,8 @@ class PageRouter {
       .map(
         (food, index) => `
             <div class="food-card ${viewMode === "list" ? "list-view" : ""}" style="animation: fadeIn 0.5s ease-in-out ${index * 0.1}s both;">
-                <div class="food-card-image" style="background:url('${food.image_url}'); background-size: cover;; display: flex; align-items: center; justify-content: center; font-size: 4rem;">
+                <div class="food-card-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; font-size: 4rem;">
+                    ${food.emoji || "🍛"}
                 </div>
                 <div class="food-card-body">
                     <h3 class="food-card-title" style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem;">${food.name}</h3>
@@ -629,19 +650,24 @@ class PageRouter {
   renderAboutPage() {
     const container = document.getElementById("page-container")
     container.innerHTML = `
-            <section class="section">
+            <section class="hero" style="min-height: auto; padding: 3rem 0;">
+                <div class="hero-content">
+                    <h1 style="font-size: 2.5rem;">Tentang <span class="accent">Cita Rasa</span></h1>
+                    <p>Platform kuliner Nusantara yang menghubungkan Anda dengan kekayaan cita rasa Indonesia</p>
+                </div>
+            </section>
+
+            <section class="section" style="background-color: #f8f9fa; padding: 3rem 0; min-height: calc(100vh - 300px);">
                 <div class="container-fluid">
-                    <h2 class="section-title">Tentang Cita Rasa</h2>
-                    
                     <div style="max-width: 800px; margin: 0 auto;">
-                        <div style="background-color: white; border: 1px solid var(--border); padding: 2rem; border-radius: 0.5rem;">
-                            <h3 style="color: var(--accent); margin-bottom: 1rem; font-weight: 600;">Misi Kami</h3>
-                            <p style="color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.6;">
+                        <div style="background-color: white; border: 1px solid var(--border); padding: 2rem; border-radius: 0.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <h3 style="color: var(--primary); margin-bottom: 1rem; font-weight: 600;">Misi Kami</h3>
+                            <p style="color: #333333; margin-bottom: 2rem; line-height: 1.6;">
                                 Cita Rasa adalah platform yang dirancang untuk memperkenalkan kekayaan kuliner Indonesia kepada masyarakat lokal dan pendatang. Kami percaya bahwa makanan adalah jembatan budaya yang menghubungkan orang-orang dari berbagai latar belakang.
                             </p>
 
-                            <h3 style="color: var(--accent); margin-bottom: 1rem; font-weight: 600;">Fitur Utama</h3>
-                            <ul style="color: var(--text-secondary); margin-bottom: 2rem; padding-left: 1.5rem; line-height: 1.8;">
+                            <h3 style="color: var(--primary); margin-bottom: 1rem; font-weight: 600;">Fitur Utama</h3>
+                            <ul style="color: #333333; margin-bottom: 2rem; padding-left: 1.5rem; line-height: 1.8;">
                                 <li>Peta interaktif makanan daerah Indonesia</li>
                                 <li>Rekomendasi berbasis AI untuk menemukan makanan favorit</li>
                                 <li>Rating dan review dari pengguna lain</li>
@@ -649,8 +675,8 @@ class PageRouter {
                                 <li>Integrasi dengan berbagai API terbuka untuk data yang akurat</li>
                             </ul>
 
-                            <h3 style="color: var(--accent); margin-bottom: 1rem; font-weight: 600;">Teknologi</h3>
-                            <p style="color: var(--text-secondary); line-height: 1.6;">
+                            <h3 style="color: var(--primary); margin-bottom: 1rem; font-weight: 600;">Teknologi</h3>
+                            <p style="color: #333333; line-height: 1.6;">
                                 Dibangun dengan teknologi native HTML, CSS, dan JavaScript tanpa framework berat. Kami menggunakan Leaflet.js untuk peta interaktif dan berbagai API terbuka untuk data makanan.
                             </p>
                         </div>
@@ -663,35 +689,40 @@ class PageRouter {
   renderAIChatPage() {
     const container = document.getElementById("page-container")
     container.innerHTML = `
-            <section class="section">
+            <section class="hero" style="min-height: auto; padding: 3rem 0;">
+                <div class="hero-content">
+                    <h1 style="font-size: 2.5rem;">Chat AI <span class="accent">Kuliner</span></h1>
+                    <p>Tanya apa saja tentang kuliner Nusantara dan dapatkan jawaban dari asisten AI kami</p>
+                </div>
+            </section>
+
+            <section class="section" style="background-color: #f8f9fa; padding: 3rem 0; min-height: calc(100vh - 300px);">
                 <div class="container-fluid">
-                    <h2 class="section-title">Chat AI Kuliner</h2>
-                    
                     <div style="max-width: 800px; margin: 0 auto;">
-                        <div style="background-color: white; border: 1px solid var(--border); padding: 2rem; border-radius: 0.5rem; box-shadow: var(--shadow-md);">
+                        <div style="background-color: white; border: 1px solid var(--border); padding: 2rem; border-radius: 0.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
                             
                             <!-- Chat Messages -->
                             <div id="chat-messages" style="height: 400px; overflow-y: auto; margin-bottom: 1.5rem; padding: 1rem; border: 1px solid var(--border); border-radius: 0.375rem; background-color: #f8f9fa;">
-                                <div class="text-center" style="color: var(--text-secondary); padding: 3rem 1rem;">
-                                    <i class="fas fa-robot" style="font-size: 3rem; margin-bottom: 1rem; color: var(--accent);"></i>
+                                <div class="text-center" style="color: #6c757d; padding: 3rem 1rem;">
+                                    <i class="fas fa-robot" style="font-size: 3rem; margin-bottom: 1rem; color: var(--primary);"></i>
                                     <p>Mulai percakapan tentang kuliner Nusantara!</p>
                                 </div>
                             </div>
 
                             <!-- Quick Actions -->
                             <div style="margin-bottom: 1.5rem;">
-                                <label style="font-weight: 600; margin-bottom: 0.5rem; display: block; color: var(--text-primary);">Quick Actions:</label>
+                                <label style="font-weight: 600; margin-bottom: 0.5rem; display: block; color: #333333;">Quick Actions:</label>
                                 <div style="display: grid; gap: 0.5rem;">
-                                    <button class="btn-secondary-custom" style="text-align: left; padding: 0.75rem 1rem; font-size: 0.875rem;" onclick="window.appRouter.sendQuickMessage('Rekomendasikan makanan khas Jawa Barat')">
+                                    <button class="btn-secondary-custom" style="text-align: left; padding: 0.75rem 1rem; font-size: 0.875rem; color: #333333; background: #f8f9fa; border: 1px solid var(--border);" onclick="window.appRouter.sendQuickMessage('Rekomendasikan makanan khas Jawa Timur')">
                                         <i class="fas fa-utensils" style="margin-right: 0.5rem;"></i>Rekomendasikan makanan daerah
                                     </button>
-                                    <button class="btn-secondary-custom" style="text-align: left; padding: 0.75rem 1rem; font-size: 0.875rem;" onclick="window.appRouter.sendQuickMessage('Apa itu Rendang?')">
+                                    <button class="btn-secondary-custom" style="text-align: left; padding: 0.75rem 1rem; font-size: 0.875rem; color: #333333; background: #f8f9fa; border: 1px solid var(--border);" onclick="window.appRouter.sendQuickMessage('Apa itu Rawon?')">
                                         <i class="fas fa-info-circle" style="margin-right: 0.5rem;"></i>Tanya tentang makanan tertentu
                                     </button>
-                                    <button class="btn-secondary-custom" style="text-align: left; padding: 0.75rem 1rem; font-size: 0.875rem;" onclick="window.appRouter.sendQuickMessage('Bagaimana cara membuat Gudeg?')">
+                                    <button class="btn-secondary-custom" style="text-align: left; padding: 0.75rem 1rem; font-size: 0.875rem; color: #333333; background: #f8f9fa; border: 1px solid var(--border);" onclick="window.appRouter.sendQuickMessage('Bagaimana cara membuat Soto Lamongan?')">
                                         <i class="fas fa-book" style="margin-right: 0.5rem;"></i>Minta resep masakan
                                     </button>
-                                    <button class="btn-secondary-custom" style="text-align: left; padding: 0.75rem 1rem; font-size: 0.875rem;" onclick="window.appRouter.sendQuickMessage('Ceritakan sejarah Sate Padang')">
+                                    <button class="btn-secondary-custom" style="text-align: left; padding: 0.75rem 1rem; font-size: 0.875rem; color: #333333; background: #f8f9fa; border: 1px solid var(--border);" onclick="window.appRouter.sendQuickMessage('Ceritakan sejarah Rujak Cingur')">
                                         <i class="fas fa-history" style="margin-right: 0.5rem;"></i>Pelajari sejarah kuliner
                                     </button>
                                 </div>
@@ -704,10 +735,10 @@ class PageRouter {
                                     id="chat-input" 
                                     class="form-control" 
                                     placeholder="Tanya tentang kuliner Nusantara..."
-                                    style="flex: 1; background-color: white; color: var(--text-primary); border-color: var(--border); padding: 0.625rem 1rem; border-radius: 0.375rem; border: 1px solid;"
+                                    style="flex: 1; background-color: #f8f9fa; color: #333333; border: 1px solid var(--border); padding: 0.75rem 1rem; border-radius: 0.5rem;"
                                     onkeypress="if(event.key === 'Enter') window.appRouter.sendChatMessage()"
                                 >
-                                <button class="btn-primary-custom" onclick="window.appRouter.sendChatMessage()" style="padding: 0.625rem 1.5rem;">
+                                <button class="btn-primary-custom" onclick="window.appRouter.sendChatMessage()" style="padding: 0.75rem 1.5rem;">
                                     <i class="fas fa-paper-plane"></i> Kirim
                                 </button>
                             </div>
@@ -793,7 +824,7 @@ class PageRouter {
     if (sender === "user") {
       messageDiv.innerHTML = `
                 <div style="display: flex; justify-content: flex-end;">
-                    <div style="background-color: var(--accent); color: white; border-radius: 1rem; padding: 0.75rem 1rem; max-width: 70%;">
+                    <div style="background-color: var(--primary); color: white; border-radius: 1rem; padding: 0.75rem 1rem; max-width: 70%;">
                         ${message}
                     </div>
                 </div>
@@ -801,7 +832,7 @@ class PageRouter {
     } else {
       messageDiv.innerHTML = `
                 <div style="display: flex; justify-content: flex-start;">
-                    <div style="background-color: #e9ecef; color: var(--text-primary); border-radius: 1rem; padding: 0.75rem 1rem; max-width: 70%;">
+                    <div style="background-color: #e9ecef; color: #333333; border-radius: 1rem; padding: 0.75rem 1rem; max-width: 70%;">
                         ${isLoading ? '<i class="fas fa-spinner fa-spin" style="margin-right: 0.5rem;"></i>' : '<i class="fas fa-robot" style="margin-right: 0.5rem;"></i>'}
                         ${message}
                     </div>

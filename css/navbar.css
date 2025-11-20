@@ -21,7 +21,7 @@ nav {
 .logo {
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--accent);
+  color: var(--primary);
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -29,7 +29,7 @@ nav {
 }
 
 .logo:hover {
-  color: var(--accent-light);
+  color: var(--primary-dark);
 }
 
 .nav-menu {
@@ -52,7 +52,7 @@ nav {
 
 .nav-item a:hover,
 .nav-item a.active {
-  color: var(--accent);
+  color: var(--primary);
 }
 
 .nav-item a::after {
@@ -62,7 +62,7 @@ nav {
   left: 0;
   width: 0;
   height: 2px;
-  background: var(--accent);
+  background: var(--primary);
   transition: var(--transition);
 }
 
@@ -81,5 +81,5 @@ nav {
 }
 
 .hamburger:hover {
-  color: var(--accent);
+  color: var(--primary);
 }

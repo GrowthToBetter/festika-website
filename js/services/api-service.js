@@ -1,5 +1,8 @@
 // API Service - Handles all API calls to Python Flask backend
-const API_BASE_URL = "https://festika-ai.vercel.app/api";// Use full URL for Vercel
+const API_BASE_URL =
+  window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+    ? "http://localhost:5000/api"
+    : "https://festika-ai.vercel.app/api" // Use full URL for Vercel
 
 const CACHE_DURATION = 5 * 60 * 1000 // 5 minutes
 const REQUEST_TIMEOUT = 60000 // 60 seconds for Vercel cold starts
@@ -112,6 +115,27 @@ async function getRegionById(id) {
   return apiRequest(`/regions/${id}`)
 }
 
+async function createRegion(regionData) {
+  return apiRequest("/regions", {
+    method: "POST",
+    body: regionData,
+  })
+}
+
+async function updateRegion(regionId, regionData) {
+  return apiRequest(`/regions/${regionId}`, {
+    method: "PUT",
+    body: regionData,
+  })
+}
+
+async function deleteRegion(regionId) {
+  return apiRequest(`/regions/${regionId}`, {
+    method: "DELETE",
+  })
+}
+
+// Category endpoints
 async function getCategories() {
   return apiRequest("/categories")
 }
@@ -120,6 +144,7 @@ async function getCategoryById(id) {
   return apiRequest(`/categories/${id}`)
 }
 
+// Food endpoints
 async function getFoodsByRegion(regionId) {
   return apiRequest(`/regions/${regionId}/foods`)
 }
@@ -128,10 +153,32 @@ async function getFoodsByCategory(categoryId) {
   return apiRequest(`/categories/${categoryId}/foods`)
 }
 
+async function createFood(foodData) {
+  return apiRequest("/foods", {
+    method: "POST",
+    body: foodData,
+  })
+}
+
+async function updateFood(foodId, foodData) {
+  return apiRequest(`/foods/${foodId}`, {
+    method: "PUT",
+    body: foodData,
+  })
+}
+
+async function deleteFood(foodId) {
+  return apiRequest(`/foods/${foodId}`, {
+    method: "DELETE",
+  })
+}
+
+// Search endpoint
 async function searchFoods(query) {
   return apiRequest(`/search?q=${encodeURIComponent(query || "")}`)
 }
 
+// NLP endpoint
 async function generateNLPResponse(prompt, type = "general", context = {}) {
   return apiRequest("/nlp/generate", {
     method: "POST",
@@ -148,11 +195,17 @@ function clearCache() {
 window.ApiService = {
   getRegions,
   getRegionById,
+  createRegion,
+  updateRegion,
+  deleteRegion,
   getCategories,
   getCategoryById,
   getFoodsByRegion,
   getFoodsByCategory,
+  createFood,
+  updateFood,
+  deleteFood,
   searchFoods,
-  generateNLPResponse, // Added NLP method
+  generateNLPResponse,
   clearCache,
 }

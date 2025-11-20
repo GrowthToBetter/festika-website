@@ -47,7 +47,7 @@ body {
 
 /* BUTTONS */
 .btn-primary-custom {
-  background-color: var(--accent);
+  background-color: var(--primary);
   border: none;
   color: white;
   padding: 0.625rem 1.25rem;
@@ -63,13 +63,14 @@ body {
 }
 
 .btn-primary-custom:hover {
-  background-color: var(--accent-light);
+  background-color: white;
   box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 
 .btn-secondary-custom {
-  background-color: transparent;
-  border: 1px solid var(--border);
+  background-color: var(--accent);
+  border: none;
   color: var(--text-primary);
   padding: 0.625rem 1.25rem;
   border-radius: 0.375rem;
@@ -84,9 +85,9 @@ body {
 }
 
 .btn-secondary-custom:hover {
-  background-color: var(--card-bg);
-  border-color: var(--accent);
-  color: var(--accent);
+  background-color: var(--accent-light);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 
 /* LOADING */
