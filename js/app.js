@@ -67,7 +67,7 @@ class Application {
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
                         <div>
                             <h4 style="color: var(--accent); margin-bottom: 1rem;">
-                                <i class="fas fa-utensils"></i> Cita Rasa
+                                <i class="fas fa-utensils"></i> CitaRasa
                             </h4>
                             <p style="color: var(--text-secondary); line-height: 1.6;">
                                 Platform pemetaan makanan khas Indonesia dengan teknologi native JavaScript.

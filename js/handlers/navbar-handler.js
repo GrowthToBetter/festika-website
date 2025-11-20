@@ -23,7 +23,7 @@ class NavbarHandler {
             <div class="navbar-container">
                 <a href="#" class="logo" data-page="home">
                     <i class="fas fa-utensils"></i>
-                    <span>Cita Rasa</span>
+                    <span>CitaRasa</span>
                 </a>
                 
                 <ul class="nav-menu">
